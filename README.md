@@ -5,9 +5,20 @@ Sitio estático de una sola página para Aurum Minerals.
 ## Estructura
 
 ```
-index.html      Página completa (HTML + CSS + JS embebidos)
-assets/         Imágenes, logos y aliados
+index.html      Home (HTML + CSS + JS embebidos)
+submit.html     Postulación de proyectos — wizard con filtros y scoring
+investors.html  Inversionistas — wizard con gate de ticket mínimo
+assets/         Imágenes, logos de aliados y videos de fondo
 ```
+
+## Formularios
+
+Ambos wizards envían a FormSubmit (sin cuenta ni API key). El destino se
+define en la constante `FORM_ENDPOINT` al inicio del `<script>` de cada
+página. Para cambiar de correo basta editar esa línea.
+
+El primer envío a un destino nuevo dispara un correo de activación que
+hay que abrir una sola vez; hasta entonces los envíos no se entregan.
 
 No hay build ni dependencias: se sirve tal cual.
 

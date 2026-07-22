@@ -208,7 +208,10 @@
 
 <script>
 /* ══════════════ CONFIG ══════════════ */
-const WEB3FORMS_KEY = '';   // TODO: pegar aquí el access key de web3forms.com (asociado a projects@aurumminerals.co)
+/* Destino de las postulaciones. Cambiar por projects@aurumminerals.co cuando exista.
+   FormSubmit no requiere cuenta ni API key: el primer envío dispara un correo de
+   activación que hay que abrir UNA sola vez para habilitar el destino. */
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/contacto@diegobarajas.com';
 
 /* ══════════════ i18n (static sections) ══════════════ */
 const T = { es: {
@@ -473,13 +476,16 @@ function score(){
 /* ── Submit ── */
 async function send(payload){
   console.log('AURUM SUBMISSION →', payload);
-  if (!WEB3FORMS_KEY) return true; // demo mode
+  if (!FORM_ENDPOINT) return true; // modo demo
+  const {subject, from_name, ...fields} = payload;
   try {
-    const r = await fetch('https://api.web3forms.com/submit', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({access_key: WEB3FORMS_KEY, ...payload})
+    const r = await fetch(FORM_ENDPOINT, {
+      method:'POST',
+      headers:{'Content-Type':'application/json', 'Accept':'application/json'},
+      body: JSON.stringify({_subject: subject, _template:'table', _captcha:'false', ...fields})
     });
-    return (await r.json()).success;
+    const d = await r.json();
+    return d.success === true || d.success === 'true';
   } catch(e){ return false; }
 }
 
