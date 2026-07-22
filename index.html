@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurum Minerals — We turn mineral assets into lasting value</title>
+<meta name="description" content="Aurum identifies, structures and develops gold mining projects across the Americas — gold mining company in Colombia with responsible operations and processing plants.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  :root{
+    --gold:#A28D31; --black:#0E0F11; --ink:#1C1E22; --white:#FFFFFF;
+    --paper:#F5F5F3; --gray:#8A8A8A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Work Sans',sans-serif;font-weight:400;color:var(--ink);background:var(--white);line-height:1.6}
+  h1,h2,h3{font-weight:900;text-transform:uppercase}
+  .eyebrow{font-weight:600;letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:var(--gold)}
+  .wrap{max-width:1440px;margin:0 auto;padding:0 5%}
+  h2{font-size:clamp(2rem,3.4vw,3.2rem);letter-spacing:.04em;line-height:1.12}
+
+  /* ── Gold pill (floating, hero only) ── */
+  .goldpill{position:fixed;left:2rem;bottom:2.4rem;z-index:1200;
+    background:rgba(14,15,17,.75);backdrop-filter:blur(10px);border:1px solid rgba(162,141,49,.55);
+    border-radius:18px;padding:.85rem 1.15rem .5rem;font-size:.8rem;letter-spacing:.06em;color:#e8e8e8;
+    transition:opacity .5s, transform .5s}
+  .goldpill .prow{display:grid;grid-template-columns:14px 64px 84px auto;align-items:center;gap:.35rem;padding:.18rem 0}
+  .goldpill .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:pulse 2.4s ease-in-out infinite}
+  #m-XAG .dot{background:#c0c0c0;box-shadow:0 0 8px #c0c0c0}
+  #m-HG .dot{background:#b87333;box-shadow:0 0 8px #b87333}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .goldpill .lbl{font-weight:600;letter-spacing:.22em;font-size:.62rem;color:#b9b9b9}
+  .goldpill .price{color:var(--gold);font-weight:600;font-size:.78rem}
+  #m-XAG .price{color:#d8d8d8}
+  #m-HG .price{color:#cf9668}
+  .goldpill .var{font-size:.7rem;font-weight:600;text-align:right}
+  .goldpill .var.up{color:#7fae62}.goldpill .var.down{color:#c0604d}
+  .goldpill .foot{text-align:right;font-size:.58rem;letter-spacing:.25em;color:#666;margin-top:.15rem}
+  .goldpill.hide{opacity:0;transform:translateY(16px);pointer-events:none}
+  /* ── Language switcher (in nav) ── */
+  .lang{display:flex;align-items:center}
+  .lang button{background:none;border:none;color:#8a8a8a;font:inherit;font-size:.78rem;font-weight:600;cursor:pointer;letter-spacing:.1em;padding:0 .35rem}
+  .lang button.active{color:var(--gold)}
+  .lang span{color:#444}
+
+  /* ── Header ── */
+  header{position:sticky;top:0;z-index:1000;background:rgba(14,15,17,.94);backdrop-filter:blur(8px);display:flex;justify-content:space-between;align-items:center;padding:1rem 6%}
+  header img{height:40px}
+  nav{display:flex;gap:1.6rem;align-items:center}
+  nav a{color:#e8e8e8;text-decoration:none;font-size:.8rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+  nav a:hover{color:var(--gold)}
+  .btn{display:inline-block;background:var(--gold);color:var(--black);padding:.75rem 1.7rem;text-decoration:none;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;border:1px solid var(--gold);transition:.2s}
+  .btn:hover{background:transparent;color:var(--gold)}
+  .btn.ghost{background:transparent;color:var(--white);border-color:rgba(255,255,255,.5)}
+  .btn.ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+  /* ── Hero ── */
+  .hero{position:relative;min-height:96vh;display:flex;align-items:center;color:var(--white);overflow:hidden;background:var(--black)}
+  .hero-media{position:absolute;inset:0}
+  .hero-media video,.hero-media img{width:100%;height:100%;object-fit:cover}
+  .hero-media img.kb{animation:kenburns 24s ease-in-out infinite alternate}
+  @keyframes kenburns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.12) translate(-1.5%,1.5%)}}
+  #dust{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,15,17,.55),rgba(14,15,17,.82));z-index:1}
+  .hero .wrap{position:relative;z-index:2;padding-top:8vh}
+  .hero h1{font-size:clamp(2.6rem,6.2vw,5.6rem);letter-spacing:.04em;line-height:1.08;max-width:16ch}
+  .hero p{max-width:58ch;margin:1.8rem 0 2.6rem;color:#d9d9d9;font-size:1.15rem}
+  .hero .note{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:2.2rem}
+  .ctas{display:flex;gap:1rem;flex-wrap:wrap}
+
+  /* ── Sections ── */
+  section{padding:8rem 0}
+  .intro .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:5rem;align-items:start}
+  .intro h2{margin:.9rem 0 1.4rem}
+  .intro p{font-size:1.12rem;color:#3a3c40}
+  .intro ul{list-style:none;margin-top:.5rem}
+  .intro li{padding:1.2rem 0;border-top:1px solid #e2e0da;font-weight:600;font-size:1.02rem}
+  .intro li::before{content:'—';color:var(--gold);margin-right:.8rem}
+
+  .dark{background:var(--black);color:var(--white)}
+  .dark h2{color:var(--white)}
+
+  /* ── Immersive scroll-zoom video block (Fortescue-style) ── */
+  .immersive{height:230vh;position:relative;background:var(--black);padding:0}
+  .imm-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .imm-media{position:relative;width:100%;height:100%;overflow:hidden;transform:scale(.58);border-radius:26px;will-change:transform}
+  .imm-media video,.imm-media img{width:100%;height:100%;object-fit:cover}
+  .imm-media img.kb{animation:kenburns 24s ease-in-out infinite alternate}
+  .imm-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,12,.25),rgba(10,11,12,.72))}
+  .imm-text{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:6% 7%;opacity:0;transform:translateY(24px);color:var(--white)}
+  .imm-text h2{font-size:clamp(2.2rem,5vw,4.4rem);max-width:16ch}
+  .imm-text p{color:#d3d3d3;max-width:52ch;margin-top:1.2rem;font-size:1.1rem}
+
+  /* ── What We Do: tall photo cards ── */
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:3.5rem}
+  .card{position:relative;min-height:560px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;padding:2rem 1.8rem;isolation:isolate;cursor:pointer}
+  .card::before{content:'';position:absolute;inset:0;background:var(--img) center/cover;transition:transform .6s ease;z-index:-2}
+  .card::after{content:'';position:absolute;inset:0;background:linear-gradient(200deg,rgba(10,11,12,.72) 0%,rgba(10,11,12,.28) 45%,rgba(10,11,12,.82) 100%);z-index:-1;transition:.4s}
+  .card:hover::before{transform:scale(1.06)}
+  .card .num{color:var(--gold);font-weight:900;font-size:.8rem;letter-spacing:.3em;margin-bottom:.9rem}
+  .card h3{font-size:1.35rem;letter-spacing:.05em;line-height:1.25;max-width:14ch}
+  .card p{color:#d0d0d0;font-size:.92rem;margin-top:auto;opacity:0;transform:translateY(12px);transition:.4s;padding-bottom:3.6rem}
+  .card:hover p{opacity:1;transform:none}
+  .card .go{position:absolute;right:1.6rem;bottom:1.6rem;width:46px;height:46px;border-radius:50%;background:var(--gold);color:var(--black);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;text-decoration:none;transition:.3s}
+  .card .go:hover{transform:translateX(4px)}
+
+  /* ── Projects & map ── */
+  .projects{background:var(--paper)}
+  .projects .head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap}
+  .projects h2{margin-top:.8rem}
+  .projects .head p{font-size:1.05rem}
+  #map{height:520px;margin-top:3rem;filter:saturate(.9);border:1px solid #dcdad2}
+  .leaflet-container{background:#101113}
+  .pcards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:1.4rem}
+  .pcard{background:var(--white);border:1px solid #e3e1da;padding:1.6rem}
+  .pcard .tag{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:.25rem .6rem;border:1px solid var(--gold);color:var(--gold)}
+  .pcard .tag.gray{border-color:#9a9a9a;color:#8a8a8a}
+  .pcard h3{margin:1rem 0 .3rem;font-size:1.05rem;letter-spacing:.06em}
+  .pcard .loc{color:var(--gray);font-size:.85rem;margin-bottom:.8rem}
+  .pcard p{font-size:.88rem}
+
+  /* ── Numbers ── */
+  .numbers .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem;text-align:center}
+  .numbers .n{font-size:clamp(2.8rem,4.5vw,4.2rem);font-weight:900;color:var(--gold)}
+  .numbers .l{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:#b9b9b9;margin-top:.4rem}
+
+  /* ── Responsible: full-bleed, image bg, 5 numbered pillars ── */
+  .resp{position:relative;color:var(--white);padding:8rem 0;background:var(--black);overflow:hidden}
+  .resp-media{position:absolute;inset:0;z-index:0}
+  .resp-media video,.resp-media img{width:100%;height:100%;object-fit:cover}
+  .resp-media::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(rgba(10,11,12,.72),rgba(10,11,12,.88))}
+  .resp .wrap{position:relative;z-index:1}
+  .resp h2{font-size:clamp(1.8rem,3.6vw,2.8rem);letter-spacing:.05em;margin:.9rem 0 1rem;max-width:22ch}
+  .resp .lead{color:#c9c9c9;max-width:60ch;margin-bottom:4rem}
+  .pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:2rem}
+  .pillar{border-top:2px solid var(--gold);padding-top:1.2rem;transition:.25s}
+  .pillar:hover{transform:translateY(-6px)}
+  .pillar .no{color:var(--gold);font-weight:900;font-size:.78rem;letter-spacing:.3em}
+  .pillar h3{font-size:.92rem;letter-spacing:.1em;margin:.6rem 0 .5rem}
+  .pillar p{font-size:.82rem;color:#a9a9a9;line-height:1.55}
+  @media(max-width:900px){.pillars{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.pillars{grid-template-columns:1fr}}
+
+  /* ── Allies ── */
+  .allies{background:var(--white);padding:3.5rem 0}
+  .marquee{overflow:hidden;margin-top:2.2rem;position:relative;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .track{display:flex;align-items:center;gap:5rem;width:max-content;animation:belt 32s linear infinite}
+  .marquee:hover .track{animation-play-state:paused}
+  @keyframes belt{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .allylogo{height:52px;width:auto;flex:0 0 auto;filter:grayscale(1) opacity(.65);transition:.25s;mix-blend-mode:multiply}
+  .allylogo:hover{filter:grayscale(0) opacity(1)}
+
+  /* ── Final CTA / footer ── */
+  .final{background:var(--black);color:var(--white);text-align:center}
+  .final h2{font-size:clamp(1.6rem,3.4vw,2.6rem);letter-spacing:.05em;max-width:26ch;margin:1rem auto 1.4rem}
+  .final p{color:#b9b9b9;max-width:60ch;margin:0 auto 2.4rem}
+  footer{background:#0a0b0c;color:#8a8a8a;font-size:.78rem;padding:3rem 6%;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
+  footer img{height:34px;opacity:.9}
+  footer a{color:#8a8a8a;text-decoration:none;margin-left:1.4rem}
+  footer a:hover{color:var(--gold)}
+
+  @media(max-width:900px){
+    .grid4,.pcards,.numbers .grid{grid-template-columns:1fr 1fr}
+    .intro .wrap,.resp .wrap{grid-template-columns:1fr}
+    nav{display:none}
+  }
+  @media(max-width:560px){
+    .grid4,.pcards,.numbers .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="goldpill" id="goldpill">
+  <div class="prow" id="m-XAU"><span class="dot"></span><span class="lbl">GOLD</span><span class="price">$—</span><span class="var"></span></div>
+  <div class="prow" id="m-XAG"><span class="dot"></span><span class="lbl">SILVER</span><span class="price">$—</span><span class="var"></span></div>
+  <div class="prow" id="m-HG"><span class="dot"></span><span class="lbl">COPPER</span><span class="price">$—</span><span class="var"></span></div>
+  <div class="foot">30d</div>
+</div>
+
+<header>
+  <img src="assets/logo_white.png" alt="Aurum">
+  <nav>
+    <a href="#about" data-i18n="nav1">About</a>
+    <a href="#whatwedo" data-i18n="nav2">What We Do</a>
+    <a href="#projects" data-i18n="nav3">Projects</a>
+    <a href="#responsible" data-i18n="nav4">Responsible Mining</a>
+    <a href="investors.html" data-i18n="nav7">Investors</a>
+    <a href="submit.html" data-i18n="nav8">Submit a Project</a>
+    <a href="#contact" class="btn" data-i18n="nav6">Contact</a>
+    <div class="lang"><button id="btn-en" class="active" onclick="setLang('en')">EN</button><span>|</span><button id="btn-es" onclick="setLang('es')">ES</button></div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-media">
+    <img class="kb" src="assets/hero_poster.jpg" alt="">
+    <canvas id="dust"></canvas>
+  </div>
+  <div class="wrap">
+    <div class="eyebrow">Aurum Minerals</div>
+    <h1 data-i18n="h1">We turn mineral assets into lasting value.</h1>
+    <p data-i18n="hsub">Aurum identifies, structures and develops gold mining projects across the Americas — combining technical rigor, responsible operations and long-term vision.</p>
+    <div class="ctas">
+      <a class="btn" href="#projects" data-i18n="cta1">Explore our projects</a>
+      <a class="btn ghost" href="#contact" data-i18n="cta2">Partner with us</a>
+    </div>
+    <div class="note" data-i18n="hnote">Medium-scale mining · Institutional standards · Colombia & Chile</div>
+  </div>
+</section>
+
+<section class="intro" id="about">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow" data-i18n="iEyebrow">Who we are</div>
+      <h2 data-i18n="iH2">A mineral asset development company focused on gold</h2>
+      <p data-i18n="iP">We acquire, structure and operate medium-scale mining projects in high-potential districts of the Americas — bringing capital, technical teams and institutional governance to a segment historically underserved by both.</p>
+    </div>
+    <ul>
+      <li data-i18n="iB1">Full-cycle development — from due diligence to production</li>
+      <li data-i18n="iB2">Specialized technical and legal teams on the ground</li>
+      <li data-i18n="iB3">Responsible operations, open-book management, traceable gold</li>
+    </ul>
+  </div>
+</section>
+
+<section class="immersive">
+  <div class="imm-sticky">
+    <div class="imm-media" id="immMedia">
+      <video id="immvid" muted loop playsinline preload="none" poster="assets/hero_poster.jpg">
+        <source data-src="assets/gold-done-right.mp4" type="video/mp4">
+      </video>
+      <div class="imm-shade"></div>
+      <div class="imm-text" id="immText">
+        <div class="eyebrow">Aurum</div>
+        <h2 data-i18n="immT">Gold, done right.</h2>
+        <p data-i18n="immP">From title to traceable gold — two countries, one standard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="whatwedo">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="wEyebrow">What we do</div>
+    <h2 style="margin-top:.8rem" data-i18n="wH2">Four capabilities, one discipline</h2>
+    <div class="grid4">
+      <div class="card" style="--img:url('assets/plant_terraces.jpg')"><div class="num">01</div><h3 data-i18n="w1t">Mineral Asset Development</h3><p data-i18n="w1p">We take gold projects from potential to production — with processing plants of 100–200 t/d designed and operated by our own teams.</p><a class="go" href="#projects" aria-label="See projects">→</a></div>
+      <div class="card" style="--img:url('assets/hero_roof.jpg')"><div class="num">02</div><h3 data-i18n="w2t">Strategic Project Structuring</h3><p data-i18n="w2p">Legal vehicles, clean titles, formalized operations and transparent reporting under one auditable framework.</p><a class="go" href="#" aria-label="How we work">→</a></div>
+      <div class="card" style="--img:url('assets/tailings.jpg')"><div class="num">03</div><h3 data-i18n="w3t">Responsible Mining & Territory</h3><p data-i18n="w3p">Environmental compliance, water reuse, tailings management and real jobs for local communities.</p><a class="go" href="#responsible" aria-label="Our commitments">→</a></div>
+      <div class="card" style="--img:url('assets/goldbar.jpg')"><div class="num">04</div><h3 data-i18n="w4t">Capital, Partnerships & Growth</h3><p data-i18n="w4p">We originate and evaluate opportunities alongside investors and strategic partners — diligence before capital, always.</p><a class="go" href="#contact" aria-label="Partner with us">→</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="projects" id="projects">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="eyebrow" data-i18n="pEyebrow">Projects & Assets</div>
+        <h2 data-i18n="pH2">Presence in two countries</h2>
+      </div>
+      <p style="max-width:44ch;color:#666" data-i18n="pP">Developed mines in Colombia. A new development underway in Chile. Every project presented the way an investor would want to see it.</p>
+    </div>
+    <div id="map"></div>
+    <div class="pcards">
+      <div class="pcard"><span class="tag" data-i18n="p1tag">Active · In production</span><h3>Playa Rica Gold Mine</h3><div class="loc">Cauca, Colombia · Gold (Au)</div><p data-i18n="p1p">Underground mine with a 100 t/d processing plant: crushing, grinding, flotation, cyanidation and smelting on site.</p></div>
+      <div class="pcard"><span class="tag gray" data-i18n="p2tag">Developed · Track record</span><h3>La María Gold Mine</h3><div class="loc">Antioquia, Colombia · Gold (Au)</div><p data-i18n="p2p">Underground mine with a 100 t/d processing plant: crushing, grinding, flotation, cyanidation and smelting on site.</p></div>
+      <div class="pcard"><span class="tag" data-i18n="p3tag">In development</span><h3 data-i18n="p3t">Chile</h3><div class="loc" data-i18n="p3loc">Antofagasta, Chile · Gold & Copper (Au · Cu)</div><p data-i18n="p3p">Project in development.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="dark numbers">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="nEyebrow">By the numbers</div>
+    <div class="grid">
+      <div><div class="n">+60</div><div class="l" data-i18n="n1">Years of combined experience</div></div>
+      <div><div class="n">2</div><div class="l" data-i18n="n2">Countries</div></div>
+      <div><div class="n">+500</div><div class="l" data-i18n="n4">Direct local jobs created</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="resp" id="responsible">
+  <div class="resp-media">
+    <video id="respvid" muted loop playsinline preload="none" poster="assets/foundry.jpg">
+      <source data-src="assets/responsible-mining.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="rEyebrow">Responsible mining</div>
+    <h2 data-i18n="rH2">Responsible operations. Measurable returns.</h2>
+    <p class="lead" data-i18n="rP">Every Aurum operation runs to one standard: licensed activity, water reused in the plant, engineered tailings and formal employment in every community where we operate.</p>
+    <div class="pillars">
+      <div class="pillar"><div class="no">01</div><h3 data-i18n="rp1">People</h3><p data-i18n="rd1">Formal jobs, safety training and fair conditions.</p></div>
+      <div class="pillar"><div class="no">02</div><h3 data-i18n="rp2">Territory</h3><p data-i18n="rd2">Local hiring and permanent community dialogue.</p></div>
+      <div class="pillar"><div class="no">03</div><h3 data-i18n="rp3">Environment</h3><p data-i18n="rd3">Licensed operations, water reuse and engineered tailings.</p></div>
+      <div class="pillar"><div class="no">04</div><h3 data-i18n="rp4">Governance</h3><p data-i18n="rd4">Open-book management and auditable reporting.</p></div>
+      <div class="pillar"><div class="no">05</div><h3 data-i18n="rp5">Long-term value</h3><p data-i18n="rd5">Assets built to outlast us.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="allies">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="aEyebrow">Allies & institutions</div>
+    <div class="marquee">
+      <div class="track">
+        <img class="allylogo" src="assets/ally_sbg.png" alt="Swiss Better Gold — Iniciativa Suiza Oro Responsable">
+        <img class="allylogo" src="assets/ally_goldbygold.png" alt="Gold by Gold Colombia">
+        <img class="allylogo" src="assets/ally_minenergia.png" alt="Ministerio de Minas y Energía — Colombia">
+        <img class="allylogo" src="assets/ally_kmtlab.png" alt="KMT Lab">
+        <img class="allylogo" src="assets/ally_terreo.png" alt="Térreo — Consultoría en servicios ambientales">
+        <img class="allylogo" src="assets/ally_altea.png" alt="Grupo Altea S.A.S.">
+        <img class="allylogo" src="assets/ally_wje.png" alt="Alianza W.J.E. — Legal and Social Advisors">
+        <img class="allylogo" src="assets/ally_udea.png" alt="Universidad de Antioquia">
+        <img class="allylogo" src="assets/ally_unal.png" alt="Universidad Nacional de Colombia">
+        <img class="allylogo" src="assets/ally_minminas.png" alt="MinMinas — Ministry of Mining and Energy in Colombia">
+        <img class="allylogo" src="assets/ally_codelco.png" alt="Codelco — Corporación Nacional del Cobre de Chile">
+        <img class="allylogo" src="assets/ally_sbg.png" alt="">
+        <img class="allylogo" src="assets/ally_goldbygold.png" alt="">
+        <img class="allylogo" src="assets/ally_minenergia.png" alt="">
+        <img class="allylogo" src="assets/ally_kmtlab.png" alt="">
+        <img class="allylogo" src="assets/ally_terreo.png" alt="">
+        <img class="allylogo" src="assets/ally_altea.png" alt="">
+        <img class="allylogo" src="assets/ally_wje.png" alt="">
+        <img class="allylogo" src="assets/ally_udea.png" alt="">
+        <img class="allylogo" src="assets/ally_unal.png" alt="">
+        <img class="allylogo" src="assets/ally_minminas.png" alt="">
+        <img class="allylogo" src="assets/ally_codelco.png" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="final" id="contact">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="fEyebrow">Work with Aurum</div>
+    <h2 data-i18n="fH2">Own a mining title? Managing capital looking for real assets?</h2>
+    <p data-i18n="fP">Aurum evaluates a limited number of projects and partnerships each year. If yours is serious, we want to see it.</p>
+    <div class="ctas" style="justify-content:center">
+      <a class="btn" href="submit.html" data-i18n="fCta1">Submit a project</a>
+      <a class="btn ghost" href="investors.html" data-i18n="fCta2">Talk to our team</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <img src="assets/logo_white.png" alt="Aurum">
+  <div>© 2026 Aurum Minerals · aurumminerals.co
+    <a href="#" data-i18n="ft1">Legal</a><a href="#" data-i18n="ft2">Privacy</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* ── i18n ── */
+const T = {
+ es: {
+  nav1:'Nosotros', nav2:'Qué hacemos', nav3:'Proyectos', nav4:'Minería responsable', nav5:'Carreras', nav6:'Contacto', nav7:'Inversionistas', nav8:'Postula tu proyecto',
+  h1:'Convertimos activos minerales en valor duradero.',
+  hsub:'Aurum identifica, estructura y desarrolla proyectos de minería de oro en las Américas — combinando rigor técnico, operación responsable y visión de largo plazo.',
+  cta1:'Conoce nuestros proyectos', cta2:'Asóciate con nosotros',
+  hnote:'Minería de mediana escala · Estándares institucionales · Colombia y Chile',
+  iEyebrow:'Quiénes somos', iH2:'Una compañía de desarrollo de activos minerales enfocada en oro',
+  iP:'Adquirimos, estructuramos y operamos proyectos mineros de mediana escala en distritos de alto potencial de las Américas — aportando capital, equipos técnicos y gobernanza institucional a un segmento históricamente desatendido por ambos.',
+  iB1:'Desarrollo de ciclo completo — del due diligence a la producción',
+  iB2:'Equipos técnicos y legales especializados en terreno',
+  iB3:'Operación responsable, gestión a libro abierto, oro trazable',
+  wEyebrow:'Qué hacemos', wH2:'Cuatro capacidades, una disciplina',
+  immT:'El oro, bien hecho.', immP:'Del título al oro trazable — dos países, un estándar.',
+  w1t:'Desarrollo de activos minerales', w1p:'Llevamos proyectos de oro del potencial a la producción — con plantas de 100–200 t/d diseñadas y operadas por nuestros equipos.', wCta1:'Ver proyectos →',
+  w2t:'Estructuración estratégica', w2p:'Vehículos legales, títulos saneados, operación formalizada y reportes transparentes bajo un marco auditable.', wCta2:'Cómo trabajamos →',
+  w3t:'Minería responsable y territorio', w3p:'Cumplimiento ambiental, reúso de agua, manejo de relaves y empleo real para las comunidades locales.', wCta3:'Nuestros compromisos →',
+  w4t:'Capital, alianzas y crecimiento', w4p:'Originamos y evaluamos oportunidades junto a inversionistas y aliados estratégicos — diligencia antes que capital, siempre.', wCta4:'Asóciate →',
+  pEyebrow:'Proyectos y activos', pH2:'Presencia en dos países',
+  pP:'Minas desarrolladas en Colombia. Un nuevo desarrollo en Chile. Cada proyecto presentado como un inversionista querría verlo.',
+  p1tag:'Activo · En producción', p1p:'Mina subterránea con planta de 100 t/d: trituración, molienda, flotación, cianuración y fundición en sitio.',
+  p2tag:'Desarrollada · Track record', p2p:'Mina subterránea con planta de 100 t/d: trituración, molienda, flotación, cianuración y fundición en sitio.',
+  p3tag:'En desarrollo', p3t:'Chile', p3loc:'Antofagasta, Chile · Oro y Cobre (Au · Cu)', p3p:'Proyecto en desarrollo.',
+  nEyebrow:'En cifras', n1:'Años de experiencia combinada', n2:'Países', n4:'Empleos locales directos',
+  rEyebrow:'Minería responsable', rH2:'Operación responsable. Retornos medibles.',
+  rP:'Cada operación de Aurum corre bajo un mismo estándar: actividad licenciada, agua reutilizada en planta, relaves con ingeniería y empleo formal en cada comunidad donde operamos.',
+  rp1:'Personas', rp2:'Territorio', rp3:'Ambiente', rp4:'Gobernanza', rp5:'Valor de largo plazo',
+  rd1:'Empleo formal, capacitación en seguridad y condiciones justas.',
+  rd2:'Contratación local y diálogo permanente con la comunidad.',
+  rd3:'Operación licenciada, reúso de agua y relaves con ingeniería.',
+  rd4:'Gestión a libro abierto y reportes auditables.',
+  rd5:'Activos construidos para trascendernos.',
+  aEyebrow:'Aliados e instituciones',
+  fEyebrow:'Trabaja con Aurum', fH2:'¿Tienes un título minero? ¿Manejas capital que busca activos reales?',
+  fP:'Aurum evalúa un número limitado de proyectos y alianzas cada año. Si el tuyo es serio, queremos verlo.',
+  fCta1:'Postula tu proyecto', fCta2:'Habla con nuestro equipo',
+  ft1:'Legal', ft2:'Privacidad', tick:'cargando…'
+ },
+ en: null /* defaults live in the HTML */
+};
+const defaults = {};
+document.querySelectorAll('[data-i18n]').forEach(el => defaults[el.dataset.i18n] = el.innerHTML);
+function setLang(l){
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    el.innerHTML = (l==='es' && T.es[k]) ? T.es[k] : defaults[k];
+  });
+  document.getElementById('btn-en').classList.toggle('active', l==='en');
+  document.getElementById('btn-es').classList.toggle('active', l==='es');
+  document.documentElement.lang = l;
+}
+
+/* ── Metals pill: live spot + 30d variation, hide on scroll past hero ──
+   BASELINE_30D: cierres de referencia (~9 jun 2026, fuentes: CNBC/Fortune/FosterFolly).
+   Actualizar mensualmente, o reemplazar por una API con histórico (p.ej. metals.dev) en producción. */
+const METALS = [
+  {sym:'XAU', unit:'/oz', base:4340.70, dec:0},
+  {sym:'XAG', unit:'/oz', base:68.68,   dec:1},
+  {sym:'HG',  unit:'/lb', base:6.50,    dec:2},
+];
+METALS.forEach(async m => {
+  const row = document.getElementById('m-'+m.sym);
+  const priceEl = row.querySelector('.price'), varEl = row.querySelector('.var');
+  try {
+    const r = await fetch('https://api.gold-api.com/price/'+m.sym);
+    const d = await r.json();
+    priceEl.textContent = '$' + Number(d.price).toLocaleString('en-US',{maximumFractionDigits:m.dec}) + m.unit;
+    if (m.base){
+      const v = (d.price - m.base)/m.base*100;
+      varEl.textContent = (v>=0?'▲':'▼') + Math.abs(v).toFixed(1) + '%';
+      varEl.className = 'var ' + (v>=0?'up':'down');
+    }
+  } catch(e) { priceEl.textContent = '$—'; }
+});
+(() => {
+  const pill = document.getElementById('goldpill');
+  const hero = document.querySelector('.hero');
+  addEventListener('scroll', () => {
+    pill.classList.toggle('hide', scrollY > hero.offsetHeight * 0.65);
+  }, {passive:true});
+})();
+
+/* ── Map (Americas, dark, gold pins) ── */
+const map = L.map('map', {scrollWheelZoom:true, worldCopyJump:false, minZoom:2, maxZoom:10})
+  .setView([-5, -72], 3);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+  {attribution:'© OpenStreetMap · © CARTO', subdomains:'abcd'}).addTo(map);
+
+const gold = '#A28D31';
+const mk = (lat,lng,title,sub,active,color) => L.circleMarker([lat,lng],{
+    radius: active?9:7, color: color||gold, weight:2,
+    fillColor: color||gold, fillOpacity: active?.85:.35
+  }).addTo(map).bindPopup(`<div style="font-family:'Work Sans',sans-serif"><strong style="letter-spacing:.05em">${title}</strong><br><span style="color:#666;font-size:.85em">${sub}</span></div>`);
+
+mk(2.45, -76.98, 'Playa Rica Gold Mine', 'Cauca, Colombia · Gold · In production', true);
+mk(6.55, -75.20, 'La María Gold Mine', 'Antioquia, Colombia · Gold · Developed (track record)', false, '#9a9a9a');
+mk(-23.65, -70.40, 'Chile', 'Antofagasta, Chile · Gold & Copper · In development', true);
+
+/* ── Background videos: lazy-load near viewport + graceful fallback ── */
+[['immvid','assets/hero_poster.jpg'],['respvid','assets/foundry.jpg']].forEach(([id, poster]) => {
+  const v = document.getElementById(id);
+  if (!v) return;
+  const fallback = () => {
+    if (!v.parentNode) return;
+    const img = document.createElement('img');
+    img.src = poster; img.className = 'kb'; img.alt = '';
+    v.replaceWith(img);
+  };
+  const src = v.querySelector('source');
+  const io = new IntersectionObserver(entries => {
+    if (!entries.some(e => e.isIntersecting)) return;
+    io.disconnect();
+    src.src = src.dataset.src;
+    src.addEventListener('error', fallback);
+    v.load();
+    const timer = setTimeout(() => { if (v.readyState < 2) fallback(); }, 12000);
+    v.addEventListener('loadeddata', () => { clearTimeout(timer); v.play().catch(()=>{}); }, {once:true});
+  }, {rootMargin:'800px 0px'});
+  io.observe(v);
+});
+
+/* ── Immersive block: media scales up as you scroll (Fortescue-style) ── */
+(() => {
+  const sec = document.querySelector('.immersive');
+  const media = document.getElementById('immMedia');
+  const text = document.getElementById('immText');
+  const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+  const tick = () => {
+    const vh = innerHeight;
+    const p = clamp((scrollY - sec.offsetTop) / (sec.offsetHeight - vh), 0, 1);
+    const z = clamp(p * 1.5, 0, 1);                 // zoom phase
+    media.style.transform = `scale(${(.58 + .42*z).toFixed(4)})`;
+    media.style.borderRadius = `${(26*(1-z)).toFixed(1)}px`;
+    const o = clamp((p - .5) / .35, 0, 1);          // text phase
+    text.style.opacity = o.toFixed(3);
+    text.style.transform = `translateY(${(24*(1-o)).toFixed(1)}px)`;
+  };
+  addEventListener('scroll', tick, {passive:true}); addEventListener('resize', tick); tick();
+})();
+
+/* ── Gold dust particles over the hero ── */
+(() => {
+  const c = document.getElementById('dust'), ctx = c.getContext('2d');
+  const hero = c.parentNode.parentNode;
+  let W, H, ps;
+  const init = () => {
+    W = c.width = hero.offsetWidth; H = c.height = hero.offsetHeight;
+    ps = Array.from({length: 55}, () => ({
+      x: Math.random()*W, y: Math.random()*H,
+      r: .6 + Math.random()*1.8, s: .15 + Math.random()*.45,
+      drift: (Math.random()-.5)*.3, a: .08 + Math.random()*.35,
+      tw: Math.random()*Math.PI*2
+    }));
+  };
+  init(); addEventListener('resize', init);
+  (function loop(t){
+    ctx.clearRect(0,0,W,H);
+    for (const p of ps){
+      p.y -= p.s; p.x += p.drift;
+      if (p.y < -4){ p.y = H+4; p.x = Math.random()*W; }
+      const tw = .6 + .4*Math.sin(t/900 + p.tw);
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,7);
+      ctx.fillStyle = `rgba(212,190,110,${(p.a*tw).toFixed(3)})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  })(0);
+})();
+</script>
+</body>
+</html>

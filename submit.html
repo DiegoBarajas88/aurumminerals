@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit a Project — Aurum Minerals</title>
+<meta name="description" content="Submit your mining project to Aurum Minerals. We evaluate gold, copper and coal projects across Latin America — technical rigor, responsible capital.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#A28D31; --black:#0E0F11; --ink:#1C1E22; --white:#FFFFFF;
+    --paper:#F5F5F3; --gray:#8A8A8A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Work Sans',sans-serif;font-weight:400;color:var(--ink);background:var(--white);line-height:1.6}
+  h1,h2,h3{font-weight:900;text-transform:uppercase}
+  .eyebrow{font-weight:600;letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:var(--gold)}
+  .wrap{max-width:1440px;margin:0 auto;padding:0 5%}
+  h2{font-size:clamp(2rem,3.4vw,3.2rem);letter-spacing:.04em;line-height:1.12}
+
+  /* ── Header ── */
+  header{position:sticky;top:0;z-index:1000;background:rgba(14,15,17,.94);backdrop-filter:blur(8px);display:flex;justify-content:space-between;align-items:center;padding:1rem 6%}
+  header img{height:40px}
+  nav{display:flex;gap:1.6rem;align-items:center}
+  nav a{color:#e8e8e8;text-decoration:none;font-size:.8rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+  nav a:hover{color:var(--gold)}
+  .btn{display:inline-block;background:var(--gold);color:var(--black);padding:.75rem 1.7rem;text-decoration:none;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;border:1px solid var(--gold);transition:.2s;cursor:pointer}
+  .btn:hover{background:transparent;color:var(--gold)}
+  .btn.ghost{background:transparent;color:var(--white);border-color:rgba(255,255,255,.5)}
+  .btn.ghost:hover{border-color:var(--gold);color:var(--gold)}
+  .lang{display:flex;align-items:center}
+  .lang button{background:none;border:none;color:#8a8a8a;font:inherit;font-size:.78rem;font-weight:600;cursor:pointer;letter-spacing:.1em;padding:0 .35rem}
+  .lang button.active{color:var(--gold)}
+  .lang span{color:#444}
+
+  /* ── Hero ── */
+  .hero{position:relative;min-height:72vh;display:flex;align-items:flex-end;color:var(--white);overflow:hidden;background:var(--black);padding-bottom:6rem}
+  .hero-media{position:absolute;inset:0}
+  .hero-media video,.hero-media img{width:100%;height:100%;object-fit:cover}
+  .hero-media img{animation:kenburns 24s ease-in-out infinite alternate}
+  @keyframes kenburns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.12) translate(-1.5%,1.5%)}}
+  .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,15,17,.6),rgba(14,15,17,.88));z-index:1}
+  .hero .wrap{position:relative;z-index:2}
+  .hero h1{font-size:clamp(2.4rem,5.4vw,4.8rem);letter-spacing:.04em;line-height:1.08;max-width:18ch}
+  .hero p{max-width:56ch;margin:1.6rem 0 0;color:#d9d9d9;font-size:1.12rem}
+  .hero .note{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:2rem}
+
+  section{padding:7rem 0}
+
+  /* ── Criteria ── */
+  .criteria .wrap{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+  .criteria h2{margin:.9rem 0 1.4rem}
+  .crit-list{list-style:none;margin-top:1rem}
+  .crit-list li{padding:1.1rem 0;border-top:1px solid #e2e0da;font-size:1rem;display:flex;gap:.9rem;align-items:baseline}
+  .crit-list li b{font-weight:600}
+  .crit-list .mark{color:var(--gold);font-weight:900}
+  .nogo{background:var(--paper);border:1px solid #e3e1da;padding:2rem}
+  .nogo h3{font-size:.92rem;letter-spacing:.14em;color:#9b3c2e;margin-bottom:1rem}
+  .nogo li{border-top:1px solid #e6e4dd;display:flex;gap:.9rem}
+  .nogo .mark{color:#9b3c2e}
+  .nogo p.note{font-size:.82rem;color:var(--gray);margin-top:1.2rem}
+
+  /* ── Process ── */
+  .process{background:var(--black);color:var(--white)}
+  .process h2{color:var(--white);margin:.9rem 0 3.5rem}
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:2rem}
+  .step{border-top:2px solid var(--gold);padding-top:1.2rem}
+  .step .no{color:var(--gold);font-weight:900;font-size:.78rem;letter-spacing:.3em}
+  .step h3{font-size:.92rem;letter-spacing:.1em;margin:.6rem 0 .5rem}
+  .step p{font-size:.82rem;color:#a9a9a9;line-height:1.55}
+  @media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.steps{grid-template-columns:1fr}}
+
+  /* ── Wizard ── */
+  .wizard{background:var(--black);color:var(--white);padding:0;min-height:100vh;display:flex;flex-direction:column;position:relative}
+  .wz-progress{position:sticky;top:0;height:3px;background:#232529;z-index:5}
+  .wz-progress i{display:block;height:100%;background:var(--gold);width:0%;transition:width .45s ease}
+  .wz-body{flex:1;display:flex;align-items:center;justify-content:center;padding:6rem 5%}
+  .wz-card{width:100%;max-width:760px;opacity:0;transform:translateY(26px);transition:opacity .4s ease,transform .4s ease}
+  .wz-card.on{opacity:1;transform:none}
+  .wz-step-tag{font-weight:600;letter-spacing:.3em;font-size:.68rem;color:var(--gold);text-transform:uppercase;margin-bottom:1.1rem}
+  .wz-q{font-size:clamp(1.5rem,2.8vw,2.3rem);font-weight:900;letter-spacing:.02em;line-height:1.2;text-transform:none}
+  .wz-hint{color:#9a9a9a;font-size:.95rem;margin-top:.8rem}
+  .wz-opts{margin-top:2.4rem;display:flex;flex-direction:column;gap:.7rem}
+  .wz-opt{display:flex;align-items:center;gap:1rem;text-align:left;background:transparent;border:1px solid #3a3d43;color:#e8e8e8;font:inherit;font-size:1rem;padding:1rem 1.2rem;cursor:pointer;transition:.18s}
+  .wz-opt:hover{border-color:var(--gold);color:var(--white);transform:translateX(4px)}
+  .wz-opt.sel{border-color:var(--gold);background:rgba(162,141,49,.12)}
+  .wz-opt .key{flex:0 0 auto;width:26px;height:26px;border:1px solid #4a4d53;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:600;color:#9a9a9a}
+  .wz-opt:hover .key,.wz-opt.sel .key{border-color:var(--gold);color:var(--gold)}
+  .wz-input{margin-top:2.4rem}
+  .wz-input input,.wz-input textarea{width:100%;background:transparent;border:0;border-bottom:2px solid #3a3d43;color:var(--white);font:inherit;font-size:1.35rem;padding:.6rem 0;outline:none;transition:border-color .2s;border-radius:0}
+  .wz-input textarea{font-size:1.05rem;min-height:110px;resize:vertical;line-height:1.5}
+  .wz-input input:focus,.wz-input textarea:focus{border-color:var(--gold)}
+  .wz-input input::placeholder,.wz-input textarea::placeholder{color:#55585e}
+  .wz-input label{display:block;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:#8a8a8a;margin:1.6rem 0 .2rem;font-weight:600}
+  .wz-nav{display:flex;align-items:center;gap:1rem;margin-top:2.6rem}
+  .wz-back{background:none;border:none;color:#8a8a8a;font:inherit;font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;padding:.75rem 0}
+  .wz-back:hover{color:var(--white)}
+  .wz-enter{font-size:.72rem;color:#6a6d73;letter-spacing:.08em}
+  .wz-enter b{color:#9a9da3}
+  .wz-err{color:#c0604d;font-size:.85rem;margin-top:1rem;min-height:1.3em}
+  .wz-result h2{color:var(--white);text-transform:uppercase;font-size:clamp(1.8rem,3.2vw,2.8rem);margin:1rem 0 1.2rem}
+  .wz-result p{color:#c9c9c9;max-width:58ch;font-size:1.05rem}
+  .wz-result .btn{margin-top:2.2rem}
+  .wz-badge{display:inline-block;border:1px solid var(--gold);color:var(--gold);font-size:.68rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;padding:.35rem .8rem}
+  .wz-intro-start{margin-top:2.6rem}
+  .wz-meta{display:grid;grid-template-columns:1fr 1fr;gap:0 2.5rem}
+  @media(max-width:640px){.wz-meta{grid-template-columns:1fr}}
+
+  /* ── Footer ── */
+  footer{background:#0a0b0c;color:#8a8a8a;font-size:.78rem;padding:3rem 6%;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
+  footer img{height:34px;opacity:.9}
+  footer a{color:#8a8a8a;text-decoration:none;margin-left:1.4rem}
+  footer a:hover{color:var(--gold)}
+
+  @media(max-width:900px){
+    nav{display:none}
+    .criteria .wrap{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html"><img src="assets/logo_white.png" alt="Aurum"></a>
+  <nav>
+    <a href="index.html#about" data-i18n="nav1">About</a>
+    <a href="index.html#whatwedo" data-i18n="nav2">What We Do</a>
+    <a href="index.html#projects" data-i18n="nav3">Projects</a>
+    <a href="index.html#responsible" data-i18n="nav4">Responsible Mining</a>
+    <a href="investors.html" data-i18n="nav7">Investors</a>
+    <a href="#wizard" class="btn" data-i18n="nav8">Submit</a>
+    <div class="lang"><button id="btn-en" class="active" onclick="setLang('en')">EN</button><span>|</span><button id="btn-es" onclick="setLang('es')">ES</button></div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-media">
+    <video id="herovid" autoplay muted loop playsinline preload="metadata" poster="assets/plant_terraces.jpg">
+      <source src="assets/your-project.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="hEyebrow">Submit a project</div>
+    <h1 data-i18n="h1">Your project, evaluated seriously.</h1>
+    <p data-i18n="hsub">Aurum reviews a limited number of mining projects each year across Latin America — gold, copper and coal. If your asset is real, licensed and well documented, we want to see it.</p>
+    <div class="note" data-i18n="hnote">Technical screening · NDA before data · Response in 10 business days</div>
+  </div>
+</section>
+
+<section class="criteria" id="criteria">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow" data-i18n="cEyebrow">What we look for</div>
+      <h2 data-i18n="cH2">Clear criteria. No exceptions.</h2>
+      <ul class="crit-list">
+        <li><span class="mark">—</span><span data-i18n="c1"><b>Minerals:</b> gold, copper or coal.</span></li>
+        <li><span class="mark">—</span><span data-i18n="c2"><b>Region:</b> Latin America.</span></li>
+        <li><span class="mark">—</span><span data-i18n="c3"><b>Legal:</b> valid mining title — or an advanced application with a verifiable file number before the mining authority.</span></li>
+        <li><span class="mark">—</span><span data-i18n="c4"><b>Stage:</b> advanced exploration, development or production.</span></li>
+        <li><span class="mark">—</span><span data-i18n="c5"><b>Ownership:</b> we deal with title holders, empowered representatives, or brokers with written authorization.</span></li>
+      </ul>
+    </div>
+    <div class="nogo">
+      <h3 data-i18n="ngH3">What we don't evaluate</h3>
+      <ul class="crit-list">
+        <li><span class="mark">✕</span><span data-i18n="ng1">Projects without a mining title or legal surface access.</span></li>
+        <li><span class="mark">✕</span><span data-i18n="ng2">Intermediaries without written authorization from the title holder.</span></li>
+        <li><span class="mark">✕</span><span data-i18n="ng3">Minerals outside our focus, or assets outside Latin America.</span></li>
+        <li><span class="mark">✕</span><span data-i18n="ng4">"Opportunities" without a single verifiable document.</span></li>
+      </ul>
+      <p class="note" data-i18n="ngNote">This protects your time and ours. Projects that don't meet the criteria today are kept in our registry for the future.</p>
+    </div>
+  </div>
+</section>
+
+<section class="process">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="pEyebrow">How it works</div>
+    <h2 data-i18n="pH2">From submission to term sheet</h2>
+    <div class="steps">
+      <div class="step"><div class="no">01</div><h3 data-i18n="ps1">Submission</h3><p data-i18n="pd1">10 minutes. No documents required at this stage.</p></div>
+      <div class="step"><div class="no">02</div><h3 data-i18n="ps2">Technical screening</h3><p data-i18n="pd2">Our team verifies the title and reviews the data. 10 business days.</p></div>
+      <div class="step"><div class="no">03</div><h3 data-i18n="ps3">NDA & data room</h3><p data-i18n="pd3">Mutual confidentiality before any technical documents change hands.</p></div>
+      <div class="step"><div class="no">04</div><h3 data-i18n="ps4">Site visit</h3><p data-i18n="pd4">Geologists and engineers on the ground, at our cost.</p></div>
+      <div class="step"><div class="no">05</div><h3 data-i18n="ps5">Term sheet</h3><p data-i18n="pd5">Acquisition, JV or investment — structured case by case.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="wizard" id="wizard">
+  <div class="wz-progress"><i id="wzBar"></i></div>
+  <div class="wz-body">
+    <div class="wz-card" id="wzCard"></div>
+  </div>
+</section>
+
+<footer>
+  <a href="index.html"><img src="assets/logo_white.png" alt="Aurum"></a>
+  <div>© 2026 Aurum Minerals · aurumminerals.co
+    <a href="#" data-i18n="ft1">Legal</a><a href="#" data-i18n="ft2">Privacy</a>
+  </div>
+</footer>
+
+<script>
+/* ══════════════ CONFIG ══════════════ */
+const WEB3FORMS_KEY = '';   // TODO: pegar aquí el access key de web3forms.com (asociado a projects@aurumminerals.co)
+
+/* ══════════════ i18n (static sections) ══════════════ */
+const T = { es: {
+  nav1:'Nosotros', nav2:'Qué hacemos', nav3:'Proyectos', nav4:'Minería responsable', nav7:'Inversionistas', nav8:'Postular',
+  hEyebrow:'Postula tu proyecto', h1:'Tu proyecto, evaluado en serio.',
+  hsub:'Aurum revisa un número limitado de proyectos mineros al año en Latinoamérica — oro, cobre y carbón. Si tu activo es real, está licenciado y bien documentado, queremos verlo.',
+  hnote:'Screening técnico · NDA antes de datos · Respuesta en 10 días hábiles',
+  cEyebrow:'Qué buscamos', cH2:'Criterios claros. Sin excepciones.',
+  c1:'<b>Minerales:</b> oro, cobre o carbón.', c2:'<b>Región:</b> Latinoamérica.',
+  c3:'<b>Legal:</b> título minero vigente — o solicitud avanzada con número de expediente verificable ante la autoridad minera.',
+  c4:'<b>Etapa:</b> exploración avanzada, desarrollo o producción.',
+  c5:'<b>Titularidad:</b> tratamos con titulares, apoderados o brokers con autorización escrita.',
+  ngH3:'Lo que no evaluamos',
+  ng1:'Proyectos sin título minero ni acceso legal al predio.', ng2:'Intermediarios sin autorización escrita del titular.',
+  ng3:'Minerales fuera de nuestro foco, o activos fuera de Latinoamérica.', ng4:'"Oportunidades" sin un solo documento verificable.',
+  ngNote:'Esto protege tu tiempo y el nuestro. Los proyectos que hoy no cumplen los criterios quedan en nuestro registro para el futuro.',
+  pEyebrow:'Cómo funciona', pH2:'De la postulación al term sheet',
+  ps1:'Postulación', pd1:'10 minutos. Sin documentos en esta etapa.',
+  ps2:'Screening técnico', pd2:'Nuestro equipo verifica el título y revisa los datos. 10 días hábiles.',
+  ps3:'NDA y data room', pd3:'Confidencialidad mutua antes de intercambiar documentos técnicos.',
+  ps4:'Visita técnica', pd4:'Geólogos e ingenieros en campo, por nuestra cuenta.',
+  ps5:'Term sheet', pd5:'Adquisición, JV o inversión — estructurado caso a caso.',
+  ft1:'Legal', ft2:'Privacidad'
+}};
+const defaults = {};
+document.querySelectorAll('[data-i18n]').forEach(el => defaults[el.dataset.i18n] = el.innerHTML);
+let LANG = 'en';
+function setLang(l){
+  LANG = l;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    el.innerHTML = (l==='es' && T.es[k]) ? T.es[k] : defaults[k];
+  });
+  document.getElementById('btn-en').classList.toggle('active', l==='en');
+  document.getElementById('btn-es').classList.toggle('active', l==='es');
+  document.documentElement.lang = l;
+  renderStep(true);
+}
+
+/* ══════════════ Wizard definition ══════════════ */
+const t = (en, es) => ({en, es});
+const LATAM = ['Colombia','Chile','Perú','Ecuador','Bolivia','Brasil','Argentina','México','Guatemala','Honduras','Nicaragua','Panamá','Venezuela','Guyana','Surinam','República Dominicana'];
+
+const STEPS = [
+  { id:'intro', type:'intro',
+    q:t('Submit your mining project','Postula tu proyecto minero'),
+    hint:t('9 questions · about 10 minutes · confidential. No documents are requested at this stage.','9 preguntas · unos 10 minutos · confidencial. En esta etapa no se piden documentos.') },
+
+  { id:'country', type:'select', tag:t('Location','Ubicación'),
+    q:t('Where is the project located?','¿Dónde está ubicado el proyecto?'),
+    opts:[...LATAM.map(c=>({v:c, l:t(c,c)})), {v:'OTHER', l:t('Other country','Otro país'), gate:'geo'}] },
+
+  { id:'mineral', type:'select', tag:t('Mineral','Mineral'),
+    q:t('What is the primary mineral?','¿Cuál es el mineral principal?'),
+    opts:[
+      {v:'Gold', l:t('Gold','Oro'), score:0},
+      {v:'Copper', l:t('Copper','Cobre'), score:0},
+      {v:'Coal', l:t('Coal','Carbón'), score:0},
+      {v:'OTHER', l:t('Other mineral','Otro mineral'), gate:'mineral'} ] },
+
+  { id:'title', type:'select', tag:t('Legal status','Estado legal'),
+    q:t('What is the legal status of the mining title?','¿Cuál es el estado legal del título minero?'),
+    opts:[
+      {v:'granted', l:t('Valid granted title','Título otorgado y vigente'), score:25},
+      {v:'application', l:t('Application in progress (with file number)','Solicitud en trámite (con número de expediente)'), score:12},
+      {v:'none', l:t('No title yet','Aún no hay título'), gate:'title'} ] },
+
+  { id:'fileNumber', type:'text', tag:t('Verification','Verificación'),
+    q:t('Title or file number before the mining authority','Número del título o expediente ante la autoridad minera'),
+    hint:t('E.g. ANM in Colombia, SERNAGEOMIN in Chile. We verify every submission — this is the fastest way to be taken seriously.','Ej. ANM en Colombia, SERNAGEOMIN en Chile. Verificamos cada postulación — es la forma más rápida de que te tomemos en serio.'),
+    placeholder:t('e.g. 14947','ej. 14947'), required:true },
+
+  { id:'relation', type:'select', tag:t('Ownership','Titularidad'),
+    q:t('What is your relationship to the title?','¿Cuál es tu relación con el título?'),
+    opts:[
+      {v:'holder', l:t('I am the title holder','Soy el titular'), score:10},
+      {v:'attorney', l:t('Empowered representative / attorney','Apoderado / representante legal'), score:8},
+      {v:'broker-auth', l:t('Broker with written authorization from the holder','Broker con autorización escrita del titular'), score:4},
+      {v:'broker-none', l:t('Broker without written authorization','Broker sin autorización escrita'), gate:'broker'} ] },
+
+  { id:'stage', type:'select', tag:t('Stage','Etapa'),
+    q:t('What stage is the project in?','¿En qué etapa está el proyecto?'),
+    opts:[
+      {v:'production', l:t('In production','En producción'), score:20},
+      {v:'development', l:t('Development / construction','Desarrollo / construcción'), score:12},
+      {v:'exploration', l:t('Advanced exploration','Exploración avanzada'), score:6},
+      {v:'early', l:t('Early exploration','Exploración temprana'), score:2} ] },
+
+  { id:'tech', type:'meta', tag:t('Technical data','Datos técnicos'),
+    q:t('Key numbers','Cifras clave'),
+    hint:t('Approximate values are fine. Leave blank what you don\'t know — honesty scores higher than invention.','Valores aproximados están bien. Deja en blanco lo que no sepas — la honestidad puntúa más que la invención.'),
+    fields:[
+      {k:'area', l:t('Area (hectares)','Área (hectáreas)'), ph:t('e.g. 120','ej. 120')},
+      {k:'grade', l:t('Average grade (g/t, % Cu, or coal quality)','Ley promedio (g/t, % Cu o calidad del carbón)'), ph:t('e.g. 8 g/t','ej. 8 g/t')},
+      {k:'tpd', l:t('Current production (tons/day, if any)','Producción actual (ton/día, si aplica)'), ph:t('e.g. 100','ej. 100')},
+      {k:'workers', l:t('People currently working on site','Personas trabajando actualmente'), ph:t('e.g. 45','ej. 45')} ] },
+
+  { id:'studies', type:'multi', tag:t('Documentation','Documentación'),
+    q:t('What technical documentation exists?','¿Qué documentación técnica existe?'),
+    hint:t('Select all that apply. You will only be asked to share it after NDA.','Selecciona todas las que apliquen. Solo se pedirán después del NDA.'),
+    opts:[
+      {v:'ni43101', l:t('NI 43-101 / JORC report','Informe NI 43-101 / JORC'), score:25},
+      {v:'geo', l:t('Geological report','Informe geológico'), score:10},
+      {v:'sampling', l:t('Sampling / lab assays','Muestreos / análisis de laboratorio'), score:8},
+      {v:'survey', l:t('Topography / mine plans','Topografía / planos de mina'), score:4},
+      {v:'enviro', l:t('Environmental license or PTO','Licencia ambiental o PTO'), score:8},
+      {v:'none', l:t('None yet','Ninguna todavía'), score:0, exclusive:true} ] },
+
+  { id:'goal', type:'select', tag:t('Objective','Objetivo'),
+    q:t('What are you looking for?','¿Qué estás buscando?'),
+    opts:[
+      {v:'sale', l:t('Full sale of the asset','Venta total del activo')},
+      {v:'jv', l:t('Partial sale / joint venture','Venta parcial / joint venture')},
+      {v:'capital', l:t('Investment to expand operations','Inversión para expandir la operación')},
+      {v:'operator', l:t('An operating partner','Un socio operador')} ] },
+
+  { id:'pitch', type:'textarea', tag:t('Your pitch','Tu pitch'),
+    q:t('In a few lines: why is this project worth our team\'s time?','En pocas líneas: ¿por qué este proyecto vale el tiempo de nuestro equipo?'),
+    placeholder:t('History, access, infrastructure, neighbors, what makes it different…','Historia, accesos, infraestructura, vecinos, qué lo hace diferente…'),
+    required:true, maxlen:600 },
+
+  { id:'contact', type:'meta', tag:t('Contact','Contacto'),
+    q:t('How do we reach you?','¿Cómo te contactamos?'),
+    fields:[
+      {k:'name', l:t('Full name','Nombre completo'), ph:t('Name','Nombre'), required:true},
+      {k:'company', l:t('Company (optional)','Empresa (opcional)'), ph:t('Company','Empresa')},
+      {k:'email', l:t('Email','Correo'), ph:'nombre@correo.com', required:true, email:true},
+      {k:'phone', l:t('WhatsApp / phone','WhatsApp / teléfono'), ph:'+57 …', required:true} ] }
+];
+
+/* Gate exit copy */
+const GATES = {
+  geo:   { title:t('Outside our current focus','Fuera de nuestro foco actual'),
+           body:t('Aurum currently evaluates projects in Latin America only. Leave your contact and we will keep your project in our registry — our footprint is growing.','Aurum evalúa por ahora proyectos únicamente en Latinoamérica. Déjanos tu contacto y tu proyecto quedará en nuestro registro — nuestra huella está creciendo.') },
+  mineral:{ title:t('Outside our current focus','Fuera de nuestro foco actual'),
+           body:t('We focus on gold, copper and coal. Leave your contact and we will register your project for future mandates.','Nos enfocamos en oro, cobre y carbón. Déjanos tu contacto y registraremos tu proyecto para futuros mandatos.') },
+  title: { title:t('A title is our starting point','El título es nuestro punto de partida'),
+           body:t('We only evaluate projects with a mining title or a formal application. When your legal situation advances, we will be glad to hear from you — leave your contact for our registry.','Solo evaluamos proyectos con título minero o solicitud formal. Cuando tu situación legal avance, con gusto te escuchamos — deja tu contacto para nuestro registro.') },
+  broker:{ title:t('Authorization required','Se requiere autorización'),
+           body:t('We work with intermediaries only when the title holder has authorized it in writing. Obtain that authorization and come back — leave your contact meanwhile.','Trabajamos con intermediarios solo cuando el titular lo ha autorizado por escrito. Consigue esa autorización y vuelve — deja tu contacto mientras tanto.') }
+};
+
+/* ══════════════ Wizard engine ══════════════ */
+const card = document.getElementById('wzCard');
+const bar = document.getElementById('wzBar');
+let idx = 0, answers = {}, gated = null, multiSel = new Set();
+
+const tx = o => o[LANG] || o.en;
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function renderStep(keep){
+  const s = STEPS[idx];
+  bar.style.width = (idx / (STEPS.length-1) * 100) + '%';
+  card.classList.remove('on');
+  setTimeout(() => {
+    let h = '';
+    if (s.type === 'intro') {
+      h = `<div class="eyebrow">${tx({en:'Project intake',es:'Recepción de proyectos'})}</div>
+        <h2 style="color:#fff;margin:1rem 0 0;font-size:clamp(1.8rem,3.4vw,3rem)">${tx(s.q)}</h2>
+        <p class="wz-hint" style="font-size:1.02rem">${tx(s.hint)}</p>
+        <div class="wz-intro-start"><button class="btn" onclick="next()">${tx({en:'Start',es:'Comenzar'})} →</button>
+        <div class="wz-enter" style="margin-top:1rem"><b>Enter ↵</b></div></div>`;
+    } else if (s.type === 'select') {
+      h = stepHead(s) + `<div class="wz-opts">` + s.opts.map((o,i) =>
+        `<button class="wz-opt${answers[s.id]===o.v?' sel':''}" onclick="pick(${i})"><span class="key">${i+1<10?i+1:String.fromCharCode(55+i)}</span>${tx(o.l)}</button>`).join('') + `</div>` + navRow(false);
+    } else if (s.type === 'multi') {
+      h = stepHead(s) + `<div class="wz-opts">` + s.opts.map((o,i) =>
+        `<button class="wz-opt${multiSel.has(o.v)?' sel':''}" onclick="toggleMulti(${i})"><span class="key">${i+1}</span>${tx(o.l)}</button>`).join('') + `</div>` + navRow(true);
+    } else if (s.type === 'text') {
+      h = stepHead(s) + `<div class="wz-input"><input id="wzField" type="text" placeholder="${esc(tx(s.placeholder||{en:'',es:''}))}" value="${esc(answers[s.id]||'')}"></div><div class="wz-err" id="wzErr"></div>` + navRow(true);
+    } else if (s.type === 'textarea') {
+      h = stepHead(s) + `<div class="wz-input"><textarea id="wzField" maxlength="${s.maxlen||600}" placeholder="${esc(tx(s.placeholder||{en:'',es:''}))}">${esc(answers[s.id]||'')}</textarea></div><div class="wz-err" id="wzErr"></div>` + navRow(true, true);
+    } else if (s.type === 'meta') {
+      h = stepHead(s) + `<div class="wz-input wz-meta">` + s.fields.map(f =>
+        `<div><label>${tx(f.l)}${f.required?' *':''}</label><input data-k="${f.k}" type="${f.email?'email':'text'}" placeholder="${esc(tx(f.ph||{en:'',es:''}))}" value="${esc((answers[s.id]||{})[f.k]||'')}"></div>`).join('') + `</div><div class="wz-err" id="wzErr"></div>` + navRow(true);
+    }
+    card.innerHTML = h;
+    card.classList.add('on');
+    const f = document.getElementById('wzField'); if (f) f.focus();
+  }, keep ? 0 : 260);
+}
+
+function stepHead(s){
+  return `<div class="wz-step-tag">${idx} / ${STEPS.length-1} · ${tx(s.tag||{en:'',es:''})}</div>
+    <div class="wz-q">${tx(s.q)}</div>` + (s.hint ? `<p class="wz-hint">${tx(s.hint)}</p>` : '');
+}
+function navRow(withNext, isTextarea){
+  return `<div class="wz-nav">` +
+    (idx>1||STEPS[idx].type!=='intro' ? `<button class="wz-back" onclick="back()">← ${tx({en:'Back',es:'Atrás'})}</button>` : '') +
+    (withNext ? `<button class="btn" onclick="next()">${tx({en:'Next',es:'Siguiente'})} →</button>
+       <span class="wz-enter">${isTextarea?'<b>Shift+Enter</b> '+tx({en:'for line break',es:'para salto de línea'}):'<b>Enter ↵</b>'}</span>` : '') + `</div>`;
+}
+
+function pick(i){
+  const s = STEPS[idx], o = s.opts[i];
+  answers[s.id] = o.v;
+  if (o.gate) { gated = o.gate; renderGate(); return; }
+  next();
+}
+function toggleMulti(i){
+  const s = STEPS[idx], o = s.opts[i];
+  if (o.exclusive) { multiSel.clear(); multiSel.add(o.v); }
+  else { multiSel.delete('none'); multiSel.has(o.v) ? multiSel.delete(o.v) : multiSel.add(o.v); }
+  renderStep(true);
+}
+
+function collect(){
+  const s = STEPS[idx];
+  if (s.type === 'text' || s.type === 'textarea') {
+    const v = document.getElementById('wzField').value.trim();
+    if (s.required && !v) { document.getElementById('wzErr').textContent = tx({en:'This field is required.',es:'Este campo es obligatorio.'}); return false; }
+    answers[s.id] = v;
+  }
+  if (s.type === 'multi') { answers[s.id] = [...multiSel]; }
+  if (s.type === 'meta') {
+    const obj = {};
+    let ok = true;
+    card.querySelectorAll('input[data-k]').forEach(inp => {
+      const f = s.fields.find(x => x.k === inp.dataset.k);
+      const v = inp.value.trim();
+      if (f.required && !v) ok = false;
+      if (f.email && v && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) ok = false;
+      obj[f.k] = v;
+    });
+    if (!ok) { document.getElementById('wzErr').textContent = tx({en:'Please complete the required fields (*) with a valid email.',es:'Completa los campos obligatorios (*) con un correo válido.'}); return false; }
+    answers[s.id] = obj;
+  }
+  return true;
+}
+
+function next(){
+  if (STEPS[idx].type !== 'intro' && STEPS[idx].type !== 'select' && !collect()) return;
+  if (idx === STEPS.length-1) { finish(); return; }
+  idx++;
+  if (STEPS[idx].id === 'multi') multiSel = new Set(answers.studies || []);
+  renderStep();
+}
+function back(){ if (idx>0){ idx--; renderStep(); } }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey && !gated && !document.querySelector('.wz-result')) {
+    if (document.activeElement.tagName === 'TEXTAREA' && e.shiftKey) return;
+    e.preventDefault(); next();
+  }
+});
+
+/* ── Scoring ── */
+function score(){
+  let sc = 0;
+  const find = (id,v) => (STEPS.find(x=>x.id===id).opts.find(o=>o.v===v)||{}).score||0;
+  sc += find('title', answers.title);
+  sc += find('relation', answers.relation);
+  sc += find('stage', answers.stage);
+  (answers.studies||[]).forEach(v => sc += find('studies', v));
+  const tech = answers.tech||{};
+  if (parseFloat(tech.tpd) > 0) sc += 8;
+  if (parseFloat(tech.area) >= 50) sc += 4;
+  if (tech.grade) sc += 4;
+  return Math.min(sc, 100);
+}
+
+/* ── Submit ── */
+async function send(payload){
+  console.log('AURUM SUBMISSION →', payload);
+  if (!WEB3FORMS_KEY) return true; // demo mode
+  try {
+    const r = await fetch('https://api.web3forms.com/submit', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({access_key: WEB3FORMS_KEY, ...payload})
+    });
+    return (await r.json()).success;
+  } catch(e){ return false; }
+}
+
+function flat(){
+  const c = answers.contact||{}, tech = answers.tech||{};
+  return {
+    country: answers.country, mineral: answers.mineral, title_status: answers.title,
+    file_number: answers.fileNumber, relationship: answers.relation, stage: answers.stage,
+    area_ha: tech.area, grade: tech.grade, tons_day: tech.tpd, workers: tech.workers,
+    studies: (answers.studies||[]).join(', '), objective: answers.goal, pitch: answers.pitch,
+    name: c.name, company: c.company, email: c.email, phone: c.phone, language: LANG
+  };
+}
+
+async function finish(){
+  const sc = score();
+  const verdict = sc >= 55 ? 'PRIORITY' : 'REGISTERED';
+  card.innerHTML = `<div class="wz-hint">${tx({en:'Sending…',es:'Enviando…'})}</div>`;
+  await send({ subject:`[AURUM PROJECT · ${verdict} ${sc}/100] ${answers.mineral} · ${answers.country} · ${answers.stage}`,
+    from_name:'Aurum Web — Project Intake', verdict, score: sc, ...flat() });
+  bar.style.width = '100%';
+  const pr = verdict === 'PRIORITY';
+  card.innerHTML = `<div class="wz-result">
+    <span class="wz-badge">${tx({en:'Submission received',es:'Postulación recibida'})}</span>
+    <h2>${pr ? tx({en:'Your project is in the queue.',es:'Tu proyecto está en la fila.'}) : tx({en:'Registered in our pipeline.',es:'Registrado en nuestro pipeline.'})}</h2>
+    <p>${pr
+      ? tx({en:'It meets our initial criteria. Our technical team will verify the title and contact you within 10 business days. Prepare your documentation — if screening goes well, the next step is an NDA and your data.',
+            es:'Cumple nuestros criterios iniciales. Nuestro equipo técnico verificará el título y te contactará dentro de 10 días hábiles. Ve preparando tu documentación — si el screening avanza, el siguiente paso es un NDA y tus datos.'})
+      : tx({en:'Thank you for the detail. Your project is now in our registry; as it matures — title, studies, production — update us and it will be re-evaluated. We respond to every submission that advances.',
+            es:'Gracias por el detalle. Tu proyecto quedó en nuestro registro; a medida que madure — título, estudios, producción — cuéntanos y será reevaluado. Respondemos toda postulación que avance.'})}</p>
+    <a class="btn" href="index.html">${tx({en:'Back to Aurum',es:'Volver a Aurum'})}</a></div>`;
+}
+
+/* ── Gate exit (capture anyway) ── */
+function renderGate(){
+  const g = GATES[gated];
+  bar.style.width = '100%';
+  card.classList.remove('on');
+  setTimeout(() => {
+    card.innerHTML = `<div class="wz-result">
+      <span class="wz-badge" style="border-color:#9b6a3c;color:#c99a5b">${tx({en:'Not a fit today',es:'Hoy no encaja'})}</span>
+      <h2>${tx(g.title)}</h2><p>${tx(g.body)}</p>
+      <div class="wz-input wz-meta" style="margin-top:1.4rem">
+        <div><label>${tx({en:'Name',es:'Nombre'})}</label><input id="gName" type="text"></div>
+        <div><label>${tx({en:'Email or WhatsApp',es:'Correo o WhatsApp'})}</label><input id="gContact" type="text"></div>
+      </div>
+      <div class="wz-nav">
+        <button class="btn" onclick="gateSend()">${tx({en:'Keep me in the registry',es:'Guardar en el registro'})}</button>
+        <button class="wz-back" onclick="gated=null;renderStep()">← ${tx({en:'Change my answer',es:'Cambiar mi respuesta'})}</button>
+      </div></div>`;
+    card.classList.add('on');
+  }, 260);
+}
+async function gateSend(){
+  const name = document.getElementById('gName').value.trim();
+  const contact = document.getElementById('gContact').value.trim();
+  await send({ subject:`[AURUM PROJECT · DISCARDED · ${gated.toUpperCase()}] ${answers.mineral||'?'} · ${answers.country||'?'}`,
+    from_name:'Aurum Web — Project Intake', verdict:'DISCARDED', gate_reason: gated, ...flat(), name, email_or_phone: contact });
+  card.innerHTML = `<div class="wz-result"><span class="wz-badge">${tx({en:'Saved',es:'Guardado'})}</span>
+    <h2>${tx({en:'You are in our registry.',es:'Quedaste en nuestro registro.'})}</h2>
+    <p>${tx({en:'If our focus expands or your situation changes, we know where to find you.',es:'Si nuestro foco se amplía o tu situación cambia, sabemos dónde encontrarte.'})}</p>
+    <a class="btn" href="index.html">${tx({en:'Back to Aurum',es:'Volver a Aurum'})}</a></div>`;
+}
+
+/* ── Hero video: graceful fallback to Ken Burns still ── */
+(() => {
+  const v = document.getElementById('herovid');
+  if (!v) return;
+  const fallback = () => {
+    if (!v.parentNode) return;
+    const img = document.createElement('img');
+    img.src = 'assets/plant_terraces.jpg'; img.alt = '';
+    v.replaceWith(img);
+  };
+  v.querySelector('source').addEventListener('error', fallback);
+  const timer = setTimeout(() => { if (v.readyState < 2) fallback(); }, 8000);
+  v.addEventListener('loadeddata', () => clearTimeout(timer), {once:true});
+})();
+
+/* ── Init: autodetect language ── */
+if ((navigator.language||'').toLowerCase().startsWith('es')) setLang('es'); else renderStep(true);
+</script>
+</body>
+</html>
