@@ -87,6 +87,8 @@
   .imm-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
   .imm-media{position:relative;width:100%;height:100%;overflow:hidden;transform:scale(.58);border-radius:26px;will-change:transform}
   .imm-media video,.imm-media img{width:100%;height:100%;object-fit:cover}
+  .imm-media video{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
+  .imm-media video.on{opacity:1}
   .imm-media img.kb{animation:kenburns 24s ease-in-out infinite alternate}
   .imm-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,12,.25),rgba(10,11,12,.72))}
   .imm-text{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:6% 7%;opacity:0;transform:translateY(24px);color:var(--white)}
@@ -130,6 +132,8 @@
   .resp{position:relative;color:var(--white);padding:8rem 0;background:var(--black);overflow:hidden}
   .resp-media{position:absolute;inset:0;z-index:0}
   .resp-media video,.resp-media img{width:100%;height:100%;object-fit:cover}
+  .resp-media video{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
+  .resp-media video.on{opacity:1}
   .resp-media::after{content:'';position:absolute;inset:0;
     background:linear-gradient(rgba(10,11,12,.72),rgba(10,11,12,.88))}
   .resp .wrap{position:relative;z-index:1}
@@ -232,7 +236,8 @@
 <section class="immersive">
   <div class="imm-sticky">
     <div class="imm-media" id="immMedia">
-      <video id="immvid" muted loop playsinline preload="none" poster="assets/hero_poster.jpg">
+      <img class="kb" src="assets/hero_poster.jpg" alt="">
+      <video id="immvid" muted loop playsinline preload="none">
         <source data-src="assets/gold-done-right.mp4" type="video/mp4">
       </video>
       <div class="imm-shade"></div>
@@ -289,7 +294,8 @@
 
 <section class="resp" id="responsible">
   <div class="resp-media">
-    <video id="respvid" muted loop playsinline preload="none" poster="assets/foundry.jpg">
+    <img src="assets/foundry.jpg" alt="">
+    <video id="respvid" muted loop playsinline preload="none">
       <source data-src="assets/responsible-mining.mp4" type="video/mp4">
     </video>
   </div>
@@ -459,16 +465,11 @@ mk(2.45, -76.98, 'Playa Rica Gold Mine', 'Cauca, Colombia · Gold · In producti
 mk(6.55, -75.20, 'La María Gold Mine', 'Antioquia, Colombia · Gold · Developed (track record)', false, '#9a9a9a');
 mk(-23.65, -70.40, 'Chile', 'Antofagasta, Chile · Gold & Copper · In development', true);
 
-/* ── Background videos: lazy-load near viewport + graceful fallback ── */
-[['immvid','assets/hero_poster.jpg'],['respvid','assets/foundry.jpg']].forEach(([id, poster]) => {
+/* ── Background videos: lazy-load near viewport, crossfade over the still ── */
+['immvid','respvid'].forEach(id => {
   const v = document.getElementById(id);
   if (!v) return;
-  const fallback = () => {
-    if (!v.parentNode) return;
-    const img = document.createElement('img');
-    img.src = poster; img.className = 'kb'; img.alt = '';
-    v.replaceWith(img);
-  };
+  const fallback = () => v.remove();   // la foto ya está debajo
   const src = v.querySelector('source');
   const io = new IntersectionObserver(entries => {
     if (!entries.some(e => e.isIntersecting)) return;
@@ -478,6 +479,7 @@ mk(-23.65, -70.40, 'Chile', 'Antofagasta, Chile · Gold & Copper · In developme
     v.load();
     const timer = setTimeout(() => { if (v.readyState < 2) fallback(); }, 12000);
     v.addEventListener('loadeddata', () => { clearTimeout(timer); v.play().catch(()=>{}); }, {once:true});
+    v.addEventListener('playing', () => v.classList.add('on'), {once:true});
   }, {rootMargin:'800px 0px'});
   io.observe(v);
 });
