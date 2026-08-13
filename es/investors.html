@@ -205,12 +205,12 @@
 </div>
 
 <header>
-  <a href="index.html"><img src="../assets/logo_white.png" alt="Aurum"></a>
+  <a href="/es/index.html"><img src="../assets/logo_white.png" alt="Aurum"></a>
   <nav>
-    <a href="index.html#about" data-i18n="nav1">Nosotros</a>
-    <a href="index.html#whatwedo" data-i18n="nav2">Qué hacemos</a>
-    <a href="index.html#projects" data-i18n="nav3">Proyectos</a>
-    <a href="submit.html" data-i18n="nav9">Postula tu proyecto</a>
+    <a href="/es/index.html#about" data-i18n="nav1">Nosotros</a>
+    <a href="/es/index.html#whatwedo" data-i18n="nav2">Qué hacemos</a>
+    <a href="/es/index.html#projects" data-i18n="nav3">Proyectos</a>
+    <a href="/es/submit.html" data-i18n="nav9">Postula tu proyecto</a>
     <a href="#wizard" class="btn" data-i18n="nav10">Invertir</a>
     <div class="lang"><button id="btn-en" onclick="setLang('en')">EN</button><span>|</span><button id="btn-es" class="active" onclick="setLang('es')">ES</button></div>
   </nav>
@@ -294,9 +294,9 @@
 </section>
 
 <footer>
-  <a href="index.html"><img src="../assets/logo_white.png" alt="Aurum"></a>
+  <a href="/es/index.html"><img src="../assets/logo_white.png" alt="Aurum"></a>
   <div>© 2026 Aurum Minerals · aurumminerals.co
-    <a href="recursos/index.html">Recursos</a><a href="#" data-i18n="ft1">Legal</a><a href="#" data-i18n="ft2">Privacidad</a>
+    <a href="/es/recursos/">Recursos</a><a href="#" data-i18n="ft1">Legal</a><a href="#" data-i18n="ft2">Privacidad</a>
   </div>
 </footer>
 
@@ -551,7 +551,7 @@ async function finish(){
     <h2>${tx({en:'Welcome to the conversation.',es:'Bienvenido a la conversación.'})}</h2>
     <p>${tx({en:'Our partnerships team will reach out within 5 business days to schedule an introductory call. After that: NDA, data room, and the specific opportunities that fit your profile.',
              es:'Nuestro equipo de alianzas te contactará dentro de 5 días hábiles para agendar una llamada introductoria. Después: NDA, data room y las oportunidades específicas que encajen con tu perfil.'})}</p>
-    <a class="btn" href="index.html">${tx({en:'Back to Aurum',es:'Volver a Aurum'})}</a></div>`;
+    <a class="btn" href="/es/index.html">${tx({en:'Back to Aurum',es:'Volver a Aurum'})}</a></div>`;
 }
 function renderGate(){
   const g = GATES[gated];
@@ -580,7 +580,7 @@ async function gateSend(){
   card.innerHTML = `<div class="wz-result"><span class="wz-badge">${tx({en:'Saved',es:'Guardado'})}</span>
     <h2>${tx({en:'You are on the list.',es:'Estás en la lista.'})}</h2>
     <p>${tx({en:'When we open structures with lower minimums, you hear it first.',es:'Cuando abramos estructuras con mínimos menores, lo sabrás primero.'})}</p>
-    <a class="btn" href="index.html">${tx({en:'Back to Aurum',es:'Volver a Aurum'})}</a></div>`;
+    <a class="btn" href="/es/index.html">${tx({en:'Back to Aurum',es:'Volver a Aurum'})}</a></div>`;
 }
 
 /* ── Metal prices (same as index) ── */

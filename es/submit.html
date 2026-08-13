@@ -175,13 +175,13 @@
 <body>
 
 <header>
-  <a href="index.html"><img src="../assets/logo_white.png" alt="Aurum"></a>
+  <a href="/es/index.html"><img src="../assets/logo_white.png" alt="Aurum"></a>
   <nav>
-    <a href="index.html#about" data-i18n="nav1">Nosotros</a>
-    <a href="index.html#whatwedo" data-i18n="nav2">Qué hacemos</a>
-    <a href="index.html#projects" data-i18n="nav3">Proyectos</a>
-    <a href="index.html#responsible" data-i18n="nav4">Minería responsable</a>
-    <a href="investors.html" data-i18n="nav7">Inversionistas</a>
+    <a href="/es/index.html#about" data-i18n="nav1">Nosotros</a>
+    <a href="/es/index.html#whatwedo" data-i18n="nav2">Qué hacemos</a>
+    <a href="/es/index.html#projects" data-i18n="nav3">Proyectos</a>
+    <a href="/es/index.html#responsible" data-i18n="nav4">Minería responsable</a>
+    <a href="/es/investors.html" data-i18n="nav7">Inversionistas</a>
     <a href="#wizard" class="btn" data-i18n="nav8">Postular</a>
     <div class="lang"><button id="btn-en" onclick="setLang('en')">EN</button><span>|</span><button id="btn-es" class="active" onclick="setLang('es')">ES</button></div>
   </nav>
@@ -249,9 +249,9 @@
 </section>
 
 <footer>
-  <a href="index.html"><img src="../assets/logo_white.png" alt="Aurum"></a>
+  <a href="/es/index.html"><img src="../assets/logo_white.png" alt="Aurum"></a>
   <div>© 2026 Aurum Minerals · aurumminerals.co
-    <a href="recursos/index.html">Recursos</a><a href="#" data-i18n="ft1">Legal</a><a href="#" data-i18n="ft2">Privacidad</a>
+    <a href="/es/recursos/">Recursos</a><a href="#" data-i18n="ft1">Legal</a><a href="#" data-i18n="ft2">Privacidad</a>
   </div>
 </footer>
 
@@ -585,7 +585,7 @@ async function finish(){
             es:'Cumple nuestros criterios iniciales. Nuestro equipo técnico verificará el título y te contactará dentro de 10 días hábiles. Ve preparando tu documentación — si el screening avanza, el siguiente paso es un NDA y tus datos.'})
       : tx({en:'Thank you for the detail. Your project is now in our registry; as it matures — title, studies, production — update us and it will be re-evaluated. We respond to every submission that advances.',
             es:'Gracias por el detalle. Tu proyecto quedó en nuestro registro; a medida que madure — título, estudios, producción — cuéntanos y será reevaluado. Respondemos toda postulación que avance.'})}</p>
-    <a class="btn" href="index.html">${tx({en:'Back to Aurum',es:'Volver a Aurum'})}</a></div>`;
+    <a class="btn" href="/es/index.html">${tx({en:'Back to Aurum',es:'Volver a Aurum'})}</a></div>`;
 }
 
 /* ── Gate exit (capture anyway) ── */
@@ -616,7 +616,7 @@ async function gateSend(){
   card.innerHTML = `<div class="wz-result"><span class="wz-badge">${tx({en:'Saved',es:'Guardado'})}</span>
     <h2>${tx({en:'You are in our registry.',es:'Quedaste en nuestro registro.'})}</h2>
     <p>${tx({en:'If our focus expands or your situation changes, we know where to find you.',es:'Si nuestro foco se amplía o tu situación cambia, sabemos dónde encontrarte.'})}</p>
-    <a class="btn" href="index.html">${tx({en:'Back to Aurum',es:'Volver a Aurum'})}</a></div>`;
+    <a class="btn" href="/es/index.html">${tx({en:'Back to Aurum',es:'Volver a Aurum'})}</a></div>`;
 }
 
 /* ── Hero video: graceful fallback to Ken Burns still ── */
